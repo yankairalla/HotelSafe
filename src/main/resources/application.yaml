@@ -7,6 +7,9 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
     initialize: true
+  jpa:
+    hibernate:
+      ddl-auto: create
 server:
   port: 8080
 

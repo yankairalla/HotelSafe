@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: HotelSafe
+  datasource:
+    url: jdbc:postgresql://localhost/hotelSafe
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+    initialize: true
+server:
+  port: 8080
+
+
+#spring:
+#  datasource:
+#    platform: postgres
+#    url: jdbc:postgresql://localhost:5432/testdb
+#    username: postgres
+#    password: root
+#    driverClassName: org.postgresql.Driver
+#    initialize: true
+#
+#  sql:
+#    init:
+#      schema-locations: classpath:/schema-postgresql.sql
+#      mode: always
+#      platform: postgres

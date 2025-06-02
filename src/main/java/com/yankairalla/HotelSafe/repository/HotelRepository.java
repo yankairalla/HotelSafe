@@ -5,7 +5,4 @@ import org.springframework.stereotype.Repository;
 import com.yankairalla.HotelSafe.model.Hotel;
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
-
-
-
 }

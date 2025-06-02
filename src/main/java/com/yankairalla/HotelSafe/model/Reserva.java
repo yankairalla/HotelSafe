@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-public class Reserva {
+public class  Reserva {
     @Id
     private long id;
     private LocalDate checkIn;
@@ -20,10 +20,10 @@ public class Reserva {
     private LocalDateTime dateCreation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+//    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "quarto_id")
+//    @JoinColumn(name = "quarto_id")
     private Quarto quarto;
 }

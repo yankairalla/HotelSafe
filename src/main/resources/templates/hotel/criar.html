@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Hotel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-8">
+<div class="max-w-2xl mx-auto px-4">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Cadastro de Hotel</h1>
+            <p class="text-gray-600">Preencha as informações do estabelecimento</p>
+        </div>
+
+        <form id="hotelForm" class="space-y-6" action="@{'/criar'}" method="POST">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label for="nomeHotel" class="block text-sm font-medium text-gray-700 mb-2">
+                        Nome do Hotel *
+                    </label>
+                    <input
+                            type="text"
+                            id="nomeHotel"
+                            name="nomeHotel"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="Ex: Hotel Paradise Resort"
+                    >
+                </div>
+                <div class="md:col-span-2">
+                    <label for="endereco" class="block text-sm font-medium text-gray-700 mb-2">
+                        Endereço *
+                    </label>
+                    <input
+                            type="text"
+                            id="endereco"
+                            name="endereco"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="Rua, número, bairro, CEP"
+                    >
+                </div>
+
+                <div>
+                    <label for="cidade" class="block text-sm font-medium text-gray-700 mb-2">
+                        Cidade *
+                    </label>
+                    <input
+                            type="text"
+                            id="cidade"
+                            name="cidade"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="Ex: São Paulo"
+                    >
+                </div>
+                <div>
+                    <label for="cnpj" class="block text-sm font-medium text-gray-700 mb-2">
+                        CNPJ *
+                    </label>
+                    <input
+                            type="text"
+                            id="cnpj"
+                            name="cnpj"
+                            required
+                            maxlength="18"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="00.000.000/0000-00"
+                    >
+                </div>
+
+                <!-- Telefone -->
+                <div>
+                    <label for="telefone" class="block text-sm font-medium text-gray-700 mb-2">
+                        Telefone *
+                    </label>
+                    <input
+                            type="tel"
+                            id="telefone"
+                            name="telefone"
+                            required
+                            maxlength="15"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="(11) 99999-9999"
+                    >
+                </div>
+
+                <!-- Horário Check-in -->
+                <div>
+                    <label for="checkIn" class="block text-sm font-medium text-gray-700 mb-2">
+                        Horário de Check-in *
+                    </label>
+                    <input
+                            type="time"
+                            id="checkIn"
+                            name="checkIn"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                    >
+                </div>
+
+                <!-- Horário Check-out -->
+                <div>
+                    <label for="checkOut" class="block text-sm font-medium text-gray-700 mb-2">
+                        Horário de Check-out *
+                    </label>
+                    <input
+                            type="time"
+                            id="checkOut"
+                            name="checkOut"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                    >
+                </div>
+            </div>
+
+            <!-- Upload de Fotos -->
+            <div class="mt-6">
+                <label for="fotos" class="block text-sm font-medium text-gray-700 mb-2">
+                    Fotos do Hotel
+                </label>
+                <div class="relative">
+                    <input
+                            type="file"
+                            id="fotos"
+                            name="fotos"
+                            multiple
+                            accept="image/*"
+                            class="hidden"
+                    >
+                    <div
+                            id="dropZone"
+                            class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition duration-200 cursor-pointer"
+                    >
+                        <div class="space-y-4">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                                 viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <div>
+                                <p class="text-gray-600">
+                                    <span class="text-blue-600 font-medium">Clique para enviar</span> ou arraste as
+                                    fotos aqui
+                                </p>
+                                <p class="text-sm text-gray-500">PNG, JPG, JPEG até 5MB cada</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview das fotos -->
+                <div id="photoPreview" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 hidden"></div>
+
+                <!-- Contador de fotos -->
+                <div id="photoCounter" class="mt-2 text-sm text-gray-600 hidden">
+                    <span id="photoCount">0</span> foto(s) selecionada(s)
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-700">Quartos</h2>
+                    <button type="button" id="addRoomBtn"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Adicionar Quarto
+                    </button>
+                </div>
+
+                <div id="roomsContainer" class="space-y-6">
+                    <!-- Quartos serão adicionados aqui dinamicamente -->
+                </div>
+
+                <div id="noRoomsMessage" class="text-center py-8 text-gray-500">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h2m0 0h2m2 0h2M7 7h10M7 10h10M7 13h10"></path>
+                    </svg>
+                    <p>Nenhum quarto adicionado ainda. Clique em "Adicionar Quarto" para começar.</p>
+                </div>
+            </div>
+            <!-- Botões -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                <button
+                        type="submit"
+                        class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition duration-200 font-medium shadow-md"
+                >
+                    Cadastrar Hotel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/js/cadastro.js"></script>
+</body>
+</html>

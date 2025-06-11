@@ -1,8 +1,6 @@
 package com.yankairalla.HotelSafe.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
@@ -10,12 +8,13 @@ import java.math.BigDecimal;
 public class Quarto {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String number;
+    private String name;
+    private int quantity;
     private Integer MaxCapacity;
     private BigDecimal price;
-    private String descritpion;
-//    private StatusQuarto statusQuarto;
+    private String description;
     @ManyToOne
     private Hotel hotel;
 }

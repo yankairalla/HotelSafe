@@ -7,6 +7,11 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
     initialize: true
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: update

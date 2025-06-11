@@ -4,12 +4,14 @@ import com.yankairalla.HotelSafe.model.Hotel;
 import com.yankairalla.HotelSafe.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("hotel")
 public class HotelController {
 
@@ -17,8 +19,18 @@ public class HotelController {
     private HotelService hotelService;
 
     @GetMapping
-    public List<Hotel> getAllHotels() {
-        return hotelService.getAllHotels();
+    public String index(Model model) {
+
+        List<Hotel> hotel =  hotelService.getAllHotels();
+        model.addAttribute("hotel", hotel);
+        return "hoteis";
+    }
+
+    @PostMapping
+    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
+
+        Hotel savedHotel = hotelService.saveHotel(hotel);
+        return ResponseEntity.ok(savedHotel);
     }
 
     @GetMapping("/{id}")
@@ -31,14 +43,7 @@ public class HotelController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
-
-        Hotel savedHotel = hotelService.saveHotel(hotel);
-        return ResponseEntity.ok(savedHotel);
-    }
-
-    @DeleteMapping("/{id}")
+    @PostMapping ("/{id}")
     public ResponseEntity<Void> deleteHotel(@PathVariable long id) {
         Optional<Hotel> hotel = hotelService.getHotelById(id);
 
@@ -47,5 +52,15 @@ public class HotelController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/criar")
+    public String criar(Model model) {
+        return "hotel/criar";
+    }
+
+    @PostMapping("/criar")
+    public void criarHotel(Model model, @ModelAttribute Hotel hotel) {
+        System.out.println(hotel.toString());
     }
 }

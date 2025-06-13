@@ -30,4 +30,12 @@ public class HotelService {
     public void deleteHotel(long id) {
         hotelRepository.deleteById(id);
     }
+
+    public boolean emailExists(String email) {
+       return hotelRepository.existsByEmail(email);
+    }
+
+    public boolean cnpjExists(String cnpj) {
+        return hotelRepository.existsByCnpj(cnpj);
+    }
 }

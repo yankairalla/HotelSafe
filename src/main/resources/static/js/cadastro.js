@@ -141,7 +141,7 @@ window.removePhoto = removePhoto;
 
 // Submeter formulário
 form.addEventListener('submit', function (e) {
-    e.preventDefault();
+    // e.preventDefault();
 
     const formData = new FormData(form);
     const cnpj = formData.get('cnpj');
@@ -172,22 +172,6 @@ form.addEventListener('submit', function (e) {
         const [hora, minuto] = horario.split(':');
         return `${hora}:${minuto}h`;
     };
-
-    dadosHotel.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div><strong class="text-gray-700">Nome:</strong> <span class="text-gray-900">${hotel.nome}</span></div>
-                    <div><strong class="text-gray-700">Cidade:</strong> <span class="text-gray-900">${hotel.cidade}</span></div>
-                    <div class="md:col-span-2"><strong class="text-gray-700">Endereço:</strong> <span class="text-gray-900">${hotel.endereco}</span></div>
-                    <div><strong class="text-gray-700">CNPJ:</strong> <span class="text-gray-900">${hotel.cnpj}</span></div>
-                    <div><strong class="text-gray-700">Telefone:</strong> <span class="text-gray-900">${hotel.telefone}</span></div>
-                    <div><strong class="text-gray-700">Check-in:</strong> <span class="text-blue-600">${formatarHorario(hotel.checkIn)}</span></div>
-                    <div><strong class="text-gray-700">Check-out:</strong> <span class="text-red-600">${formatarHorario(hotel.checkOut)}</span></div>
-                    <div class="md:col-span-2"><strong class="text-gray-700">Fotos:</strong> <span class="text-green-600">${selectedFiles.length} foto(s) selecionada(s)</span></div>
-                </div>
-            `;
-
-    resultado.classList.remove('hidden');
-    resultado.scrollIntoView({behavior: 'smooth'});
 });
 
 // Limpar formulário
@@ -303,39 +287,39 @@ function updateRoomNumbers() {
 addRoomBtn.addEventListener('click', addRoom);
 
 // Form submission
-document.getElementById('hotelForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const data = {};
-
-    // Processar dados do formulário
-    for (let [key, value] of formData.entries()) {
-        if (key.includes('rooms[')) {
-            // Processar dados dos quartos
-            if (!data.rooms) data.rooms = [];
-
-            const match = key.match(/rooms\[(\d+)\]\[(\w+)\]/);
-            if (match) {
-                const roomIndex = match[1];
-                const field = match[2];
-
-                if (!data.rooms[roomIndex]) {
-                    data.rooms[roomIndex] = {};
-                }
-                data.rooms[roomIndex][field] = value;
-            }
-        } else {
-            data[key] = value;
-        }
-    }
-
-    // Filtrar quartos vazios
-    if (data.rooms) {
-        data.rooms = data.rooms.filter(room => room);
-    }
-
-    console.log('Dados do formulário:', data);
-});
+// document.getElementById('hotelForm').addEventListener('submit', function (e) {
+//     e.preventDefault();
+//
+//     const formData = new FormData(this);
+//     const data = {};
+//
+//     // Processar dados do formulário
+//     for (let [key, value] of formData.entries()) {
+//         if (key.includes('rooms[')) {
+//             // Processar dados dos quartos
+//             if (!data.rooms) data.rooms = [];
+//
+//             const match = key.match(/rooms\[(\d+)\]\[(\w+)\]/);
+//             if (match) {
+//                 const roomIndex = match[1];
+//                 const field = match[2];
+//
+//                 if (!data.rooms[roomIndex]) {
+//                     data.rooms[roomIndex] = {};
+//                 }
+//                 data.rooms[roomIndex][field] = value;
+//             }
+//         } else {
+//             data[key] = value;
+//         }
+//     }
+//
+//     // Filtrar quartos vazios
+//     if (data.rooms) {
+//         data.rooms = data.rooms.filter(room => room);
+//     }
+//
+//     console.log('Dados do formulário:', data);
+// });
 
 toggleNoRoomsMessage();

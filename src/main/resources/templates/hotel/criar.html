@@ -14,7 +14,34 @@
             <p class="text-gray-600">Preencha as informações do estabelecimento</p>
         </div>
 
-        <form id="hotelForm" class="space-y-6" action="@{'/criar'}" method="POST">
+        <form id="hotelForm" class="space-y-6" th:action="@{'/hotel/criar'}" method="POST" enctype="multipart/form-data"
+              th:object="${hotel}">
+
+            <div th:if="${#fields.hasErrors('*')}"
+                 class="bg-red-50 border border-red-200 rounded-lg p-4 shadow-sm mb-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800 mb-2">
+                            Foram encontrados os seguintes erros:
+                        </h3>
+                        <ul class="text-sm text-red-700 space-y-1">
+                            <li th:each="err : ${#fields.errors('*')}"
+                                class="flex items-start">
+                                <span class="inline-block w-1 h-1 bg-red-400 rounded-full mt-2 mr-2"></span>
+                                <span th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
                     <label for="nomeHotel" class="block text-sm font-medium text-gray-700 mb-2">
@@ -23,10 +50,31 @@
                     <input
                             type="text"
                             id="nomeHotel"
-                            name="nomeHotel"
+                            name="name"
+                            th:field="*{name}"
                             required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                             placeholder="Ex: Hotel Paradise Resort"
+                            th:classappend="${#fields.hasErrors('name')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
+                    >
+                </div>
+                <div class="md:col-span-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        Email *
+                    </label>
+                    <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            th:field="*{email}"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            placeholder="foo@bar.com"
+                            th:classappend="${#fields.hasErrors('email')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
                 <div class="md:col-span-2">
@@ -36,10 +84,13 @@
                     <input
                             type="text"
                             id="endereco"
-                            name="endereco"
-                            required
+                            name="address"
+                            th:field="*{address}"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                             placeholder="Rua, número, bairro, CEP"
+                            th:classappend="${#fields.hasErrors('address')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
 
@@ -50,10 +101,14 @@
                     <input
                             type="text"
                             id="cidade"
-                            name="cidade"
+                            name="city"
+                            th:field="*{city}"
                             required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                             placeholder="Ex: São Paulo"
+                            th:classappend="${#fields.hasErrors('city')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
                 <div>
@@ -64,10 +119,14 @@
                             type="text"
                             id="cnpj"
                             name="cnpj"
+                            th:field="*{cnpj}"
                             required
                             maxlength="18"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                             placeholder="00.000.000/0000-00"
+                            th:classappend="${#fields.hasErrors('cnpj')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
 
@@ -79,11 +138,15 @@
                     <input
                             type="tel"
                             id="telefone"
-                            name="telefone"
+                            name="phone"
+                            th:field="*{phone}"
                             required
                             maxlength="15"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                             placeholder="(11) 99999-9999"
+                            th:classappend="${#fields.hasErrors('phone')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
 
@@ -96,8 +159,13 @@
                             type="time"
                             id="checkIn"
                             name="checkIn"
+                            th:field="*{checkIn}"
                             required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+
+                            th:classappend="${#fields.hasErrors('checkIn')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
 
@@ -110,8 +178,13 @@
                             type="time"
                             id="checkOut"
                             name="checkOut"
+                            th:field="*{checkOut}"
                             required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+
+                            th:classappend="${#fields.hasErrors('checkOut')} ?
+                            'border-red-500 ring-2 ring-red-200' :
+                            'border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent'"
                     >
                 </div>
             </div>
@@ -129,6 +202,7 @@
                             multiple
                             accept="image/*"
                             class="hidden"
+
                     >
                     <div
                             id="dropZone"
@@ -173,7 +247,6 @@
                 </div>
 
                 <div id="roomsContainer" class="space-y-6">
-                    <!-- Quartos serão adicionados aqui dinamicamente -->
                 </div>
 
                 <div id="noRoomsMessage" class="text-center py-8 text-gray-500">

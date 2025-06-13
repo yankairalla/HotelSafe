@@ -2,10 +2,12 @@ package com.yankairalla.HotelSafe.controller;
 
 import com.yankairalla.HotelSafe.model.Hotel;
 import com.yankairalla.HotelSafe.service.HotelService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +26,6 @@ public class HotelController {
         List<Hotel> hotel =  hotelService.getAllHotels();
         model.addAttribute("hotel", hotel);
         return "hoteis";
-    }
-
-    @PostMapping
-    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
-
-        Hotel savedHotel = hotelService.saveHotel(hotel);
-        return ResponseEntity.ok(savedHotel);
     }
 
     @GetMapping("/{id}")
@@ -56,11 +51,26 @@ public class HotelController {
 
     @GetMapping("/criar")
     public String criar(Model model) {
+        model.addAttribute("hotel", new Hotel());
         return "hotel/criar";
     }
 
     @PostMapping("/criar")
-    public void criarHotel(Model model, @ModelAttribute Hotel hotel) {
-        System.out.println(hotel.toString());
+    public String criarHotel(@Valid @ModelAttribute Hotel hotel, BindingResult bindingResult, Model model) {
+
+        if(hotelService.emailExists(hotel.getEmail())) {
+            bindingResult.rejectValue("email","email.cadastrado", "Email já cadastrado");
+        }
+
+        if(hotelService.cnpjExists(hotel.getCnpj())) {
+            bindingResult.rejectValue("cnpj","cnpj.cadastrado", "CNPJ já cadastrado");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "hotel/criar";
+        }
+
+        hotelService.saveHotel(hotel);
+        return "redirect:/hotel";
     }
 }

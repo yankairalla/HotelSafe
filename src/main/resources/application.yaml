@@ -7,9 +7,15 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
     initialize: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+      location: /tmp
   devtools:
     restart:
       enabled: true
+      additional-paths: src/main/resources/templates/,src/main/resources/static/
     livereload:
       enabled: true
   jpa:
@@ -17,7 +23,9 @@ spring:
       ddl-auto: update
 server:
   port: 8080
-
+app:
+  upload:
+    dir: uploads/hoteis
 
 #spring:
 #  datasource:

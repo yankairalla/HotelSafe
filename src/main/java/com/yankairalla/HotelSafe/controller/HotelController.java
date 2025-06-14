@@ -1,5 +1,6 @@
 package com.yankairalla.HotelSafe.controller;
 
+import com.yankairalla.HotelSafe.dto.HotelDTO;
 import com.yankairalla.HotelSafe.model.Hotel;
 import com.yankairalla.HotelSafe.service.HotelService;
 import jakarta.validation.Valid;
@@ -22,20 +23,20 @@ public class HotelController {
 
     @GetMapping
     public String index(Model model) {
-
-        List<Hotel> hotel =  hotelService.getAllHotels();
-        model.addAttribute("hotel", hotel);
-        return "hoteis";
+        List<Hotel> hotels =  hotelService.getAllHotels();
+        model.addAttribute("hoteis", hotels);
+        return "hotel/index";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Hotel> getHotelById(@PathVariable long id) {
+    public String getHotelById(@PathVariable long id, Model model) {
         Optional<Hotel> hotel = hotelService.getHotelById(id);
 
         if (hotel.isPresent()) {
-            return ResponseEntity.ok(hotel.get());
+            model.addAttribute("hotel", hotel.get());
+            return "hotel/hotel";
         }
-        return ResponseEntity.notFound().build();
+        return "redirect:/hotel";
     }
 
     @PostMapping ("/{id}")
@@ -50,13 +51,13 @@ public class HotelController {
     }
 
     @GetMapping("/criar")
-    public String criar(Model model) {
-        model.addAttribute("hotel", new Hotel());
+    public String criar(@ModelAttribute("hotel") HotelDTO hotel, Model model) {
+        model.addAttribute("hotel", hotel);
         return "hotel/criar";
     }
 
     @PostMapping("/criar")
-    public String criarHotel(@Valid @ModelAttribute Hotel hotel, BindingResult bindingResult, Model model) {
+    public String criarHotel(@Valid @ModelAttribute("hotel") HotelDTO hotel, BindingResult bindingResult, Model model) {
 
         if(hotelService.emailExists(hotel.getEmail())) {
             bindingResult.rejectValue("email","email.cadastrado", "Email já cadastrado");
@@ -69,7 +70,6 @@ public class HotelController {
         if (bindingResult.hasErrors()) {
             return "hotel/criar";
         }
-
         hotelService.saveHotel(hotel);
         return "redirect:/hotel";
     }

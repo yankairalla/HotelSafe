@@ -2,9 +2,9 @@ spring:
   application:
     name: HotelSafe
   datasource:
-    url: jdbc:postgresql://localhost/hotelSafe
-    username: postgres
-    password: root
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
     initialize: true
   servlet:

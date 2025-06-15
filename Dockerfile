@@ -7,7 +7,7 @@ COPY . .
 RUN apt-get install maven -y
 RUN mvn clean install
 
-FROM eclipse-temurin:21
+FROM openjdk:21-jdk-slim
 
 COPY --from=build /target/HotelSafe-0.0.1-SNAPSHOT app.jar
 EXPOSE 8080

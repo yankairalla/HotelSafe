@@ -1,6 +1,15 @@
+FROM ubuntu:latest AS build
+
+RUN apt-get update
+RUN apt-get install clipse-temurin:21 -y
+COPY . .
+
+RUN apt-get install maven -y
+RUN mvn clean install
+
 FROM eclipse-temurin:21
 LABEL authors="Yan Kairalla"
 WORKDIR /app
-COPY target/*.jar hotelsafe.jar
+COPY --from=build /target/HotelSafe-0.0.1-SNAPSHOT app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "hotelsafe.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

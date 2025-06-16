@@ -15,3 +15,5 @@
 - Login
 - Colocar um limitador de caracteres no campo de descrição do hotel.
 - Colocar um mapa mostrando a localização do hotel
+- Pagina de editar do hotel
+- Sistema de tags para os hoteis

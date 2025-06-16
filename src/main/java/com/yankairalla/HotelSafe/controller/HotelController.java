@@ -39,16 +39,6 @@ public class HotelController {
         return "redirect:/hotel";
     }
 
-    @PostMapping ("/{id}")
-    public ResponseEntity<Void> deleteHotel(@PathVariable long id) {
-        Optional<Hotel> hotel = hotelService.getHotelById(id);
-
-        if (hotel.isPresent()) {
-            hotelService.deleteHotel(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     @GetMapping("/criar")
     public String criar(@ModelAttribute("hotel") HotelDTO hotel, Model model) {
@@ -83,5 +73,15 @@ public class HotelController {
         }
         hotelService.saveHotel(hotel);
         return "redirect:/hotel";
+    }
+
+    @GetMapping("/{id}/deletar")
+    public String deleteHotel(@PathVariable long id, Model model) {
+        Optional<Hotel> hotel = hotelService.getHotelById(id);
+
+        if(hotel.isPresent()) {
+            hotelService.deleteHotel(id);
+        }
+        return "home";
     }
 }

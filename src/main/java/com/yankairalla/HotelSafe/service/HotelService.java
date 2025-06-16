@@ -2,6 +2,7 @@ package com.yankairalla.HotelSafe.service;
 
 import com.yankairalla.HotelSafe.dto.HotelDTO;
 import com.yankairalla.HotelSafe.model.Hotel;
+import com.yankairalla.HotelSafe.model.Quarto;
 import com.yankairalla.HotelSafe.repository.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,15 @@ public class HotelService {
         return hotelRepository.findById(id);
     }
 
-    public Hotel saveHotel(HotelDTO hotelDTO) {
+    public void saveHotel(HotelDTO hotelDTO) {
         List<String> paths = savePhotos(hotelDTO.getPhotos());
         Hotel hotel = hotelDTO.toEntity(paths);
-        return hotelRepository.save(hotel);
+
+        if (hotel.getRooms() != null) {
+            hotel.getRooms().forEach(quarto -> quarto.setHotel(hotel));
+        }
+
+        hotelRepository.save(hotel);
     }
 
     public void deleteHotel(long id) {
@@ -68,5 +74,6 @@ public class HotelService {
         }
         return paths;
     }
+
 
 }

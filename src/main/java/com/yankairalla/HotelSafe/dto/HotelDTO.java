@@ -1,6 +1,7 @@
 package com.yankairalla.HotelSafe.dto;
 
 import com.yankairalla.HotelSafe.model.Hotel;
+import com.yankairalla.HotelSafe.model.Quarto;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,7 +12,9 @@ import jakarta.validation.constraints.Pattern;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HotelDTO {
     private int id;
@@ -39,6 +42,7 @@ public class HotelDTO {
     private MultipartFile[] photos;
     @NotBlank(message = "Descrição é obrigatório")
     private String description;
+    private List<QuartoDTO> rooms = new ArrayList<>();
 
     public Hotel toEntity(List<String> photos) {
         Hotel hotel = new Hotel();
@@ -52,6 +56,20 @@ public class HotelDTO {
         hotel.setCheckOut(checkOut);
         hotel.setDescription(description);
         hotel.setPhotos(photos);
+
+
+        if (this.rooms != null) {
+            List<Quarto> quartos = this.rooms.stream()
+                    .map(quartoDTO -> {
+                        Quarto quarto = quartoDTO.toEntity();
+                        quarto.setHotel(hotel);  // Set the hotel reference
+                        return quarto;
+                    })
+                    .collect(Collectors.toList());
+            hotel.setRooms(quartos);
+        }
+
+
         return hotel;
     }
 
@@ -143,5 +161,22 @@ public class HotelDTO {
         this.description = description;
     }
 
+    public List<QuartoDTO> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<QuartoDTO> rooms) {
+        this.rooms = rooms;
+    }
+
+    @Override
+    public String toString() {
+        return "HotelDTO{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", rooms=" + rooms +
+                // other fields...
+                '}';
+    }
 
 }

@@ -203,6 +203,7 @@ function createRoomElement() {
     const roomDiv = document.createElement('div');
     roomDiv.className = 'bg-gray-50 p-6 rounded-lg border border-gray-200 relative';
     roomDiv.dataset.roomId = roomCounter;
+    const roomIndex = roomCounter - 1;
 
     roomDiv.innerHTML = `
                 <div class="flex justify-between items-center mb-4">
@@ -217,27 +218,27 @@ function createRoomElement() {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Nome do Quarto</label>
-                        <input type="text" name="rooms[${roomCounter}][name]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: Suíte Deluxe" required>
+                        <input type="text" name="rooms[${roomCounter}].name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: Suíte Deluxe" required>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Capacidade Máxima</label>
-                        <input type="number" name="rooms[${roomCounter}][capacity]" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 2" required>
+                        <input type="number" name="rooms[${roomCounter}].maxCapacity" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 2" required>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Quantidade</label>
-                        <input type="number" name="rooms[${roomCounter}][quantity]" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 5" required>
+                        <input type="number" name="rooms[${roomCounter}].quantity" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 5" required>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Preço (R$)</label>
-                        <input type="number" name="rooms[${roomCounter}][price]" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 150.00" required>
+                        <input type="number" name="rooms[${roomCounter}].price" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: 150.00" required>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
-                        <textarea name="rooms[${roomCounter}][description]" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" placeholder="Descreva as características e comodidades do quarto..." required></textarea>
+                        <textarea name="rooms[${roomCounter}].description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" placeholder="Descreva as características e comodidades do quarto..." required></textarea>
                     </div>
                 </div>
             `;
@@ -287,39 +288,37 @@ function updateRoomNumbers() {
 addRoomBtn.addEventListener('click', addRoom);
 
 // Form submission
-// document.getElementById('hotelForm').addEventListener('submit', function (e) {
-//     e.preventDefault();
-//
-//     const formData = new FormData(this);
-//     const data = {};
-//
-//     // Processar dados do formulário
-//     for (let [key, value] of formData.entries()) {
-//         if (key.includes('rooms[')) {
-//             // Processar dados dos quartos
-//             if (!data.rooms) data.rooms = [];
-//
-//             const match = key.match(/rooms\[(\d+)\]\[(\w+)\]/);
-//             if (match) {
-//                 const roomIndex = match[1];
-//                 const field = match[2];
-//
-//                 if (!data.rooms[roomIndex]) {
-//                     data.rooms[roomIndex] = {};
-//                 }
-//                 data.rooms[roomIndex][field] = value;
-//             }
-//         } else {
-//             data[key] = value;
-//         }
-//     }
-//
-//     // Filtrar quartos vazios
-//     if (data.rooms) {
-//         data.rooms = data.rooms.filter(room => room);
-//     }
-//
-//     console.log('Dados do formulário:', data);
-// });
+document.getElementById('hotelForm').addEventListener('submit', function (e) {
+    const formData = new FormData(this);
+    const data = {};
+
+    // Processar dados do formulário
+    for (let [key, value] of formData.entries()) {
+        if (key.includes('rooms[')) {
+            // Processar dados dos quartos
+            if (!data.rooms) data.rooms = [];
+
+            const match = key.match(/rooms\[(\d+)].(\w+)/);
+            if (match) {
+                const roomIndex = match[1];
+                const field = match[2];
+
+                if (!data.rooms[roomIndex]) {
+                    data.rooms[roomIndex] = {};
+                }
+                data.rooms[roomIndex][field] = value;
+            }
+        } else {
+            data[key] = value;
+        }
+    }
+
+    // // Filtrar quartos vazios
+    // if (data.rooms) {
+    //     data.rooms = data.rooms.filter(room => room);
+    // }
+
+    console.log('Dados do formulário:', data);
+});
 
 toggleNoRoomsMessage();

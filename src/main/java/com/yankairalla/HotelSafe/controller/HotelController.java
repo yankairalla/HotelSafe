@@ -59,6 +59,16 @@ public class HotelController {
     @PostMapping("/criar")
     public String criarHotel(@Valid @ModelAttribute("hotel") HotelDTO hotel, BindingResult bindingResult, Model model) {
 
+        if (hotel.getRooms() != null) {
+            hotel.setRooms(hotel.getRooms().stream()
+                    .filter(room -> room.getName() != null ||
+                            room.getPrice() != null ||
+                            room.getDescription() != null
+                            )
+                    .toList());
+        }
+
+
         if(hotelService.emailExists(hotel.getEmail())) {
             bindingResult.rejectValue("email","email.cadastrado", "Email já cadastrado");
         }
@@ -66,6 +76,7 @@ public class HotelController {
         if(hotelService.cnpjExists(hotel.getCnpj())) {
             bindingResult.rejectValue("cnpj","cnpj.cadastrado", "CNPJ já cadastrado");
         }
+
 
         if (bindingResult.hasErrors()) {
             return "hotel/criar";

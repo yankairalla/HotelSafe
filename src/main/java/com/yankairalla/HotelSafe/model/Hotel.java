@@ -2,13 +2,6 @@ package com.yankairalla.HotelSafe.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -24,8 +17,8 @@ public class Hotel {
     private String city;
     private String cnpj;
     private String phone;
-    @OneToMany(mappedBy = "hotel")
-    private List<Quarto> quartos;
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<Quarto> rooms;
     private LocalTime checkIn;
     private LocalTime checkOut;
     private Boolean active = true;
@@ -87,12 +80,12 @@ public class Hotel {
         this.phone = phone;
     }
 
-    public List<Quarto> getQuartos() {
-        return quartos;
+    public List<Quarto> getRooms() {
+        return rooms;
     }
 
-    public void setQuartos(List<Quarto> quartos) {
-        this.quartos = quartos;
+    public void setRooms (List<Quarto> quartos) {
+        this.rooms = quartos;
     }
 
     public LocalTime getCheckIn() {
@@ -142,4 +135,6 @@ public class Hotel {
     public void setRating(Double rating) {
         this.rating = rating;
     }
+
+
 }
